@@ -1,0 +1,16 @@
+<!doctype htmk>
+<title>SysStats</title>
+
+<h2>Overview</h2>
+<pre>{{ date }}</pre>
+<pre>{{uname_a.nodename}}: {{uname_a.sysname}}/{{uname_a.release}} on {{uname_a.machine}}</pre>
+<pre>{{ kernel_version }}</pre>
+
+<h2>Network</h2>
+<pre>
+{% for iface in ifaces %}
+{{ iface.line }}
+{% endfor %}
+</pre>
+
+<h2>Containers</h2>
