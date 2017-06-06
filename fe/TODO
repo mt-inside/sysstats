@@ -1,1 +1,6 @@
 how to run as flask app when a package? http://flask.pocoo.org/docs/0.12/patterns/packages/
+bind to port 80
+- don't use the flask sev server for prodn, use uWSGI (in container) - nginx has this as an upstread type, so prosumably it can talk some protocol other than http to it?
+- it's uwsgi you want to bind to port 80, flask's config just moves the dev server
+- don't even uderstand the dev server - flask.run vs python -m flask
+  - this stuff to EN, and pull pip & flask stuff out of python note into their own tools notes
