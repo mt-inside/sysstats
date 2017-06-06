@@ -40,10 +40,15 @@ class SysStatsServicer(sysstats_pb2_grpc.SysStatsServicer):
 
     def Ifaces(self, request, context):
         try:
-            TODO do a popen and don't wait for the process to complete, see if the page progressively renders
-            cp = subprocess.run(["netstat", "-ibd"], stdout=subprocess.PIPE)
-            ls = cp.stdout.decode().split('\n')
-            return (sysstats_pb2.IfaceT(line=l) for l in ls)
+            # Hacks to get round the buffering on the pipe (and the fact that netstat doesn't flush it)
+            # Had no luck with:
+            # - reopening the pipe fd with no buffering
+            # - using (g)stdbuf
+            # - didn't try expect's unbuffered (not built by the stanard brew build of expect)
+            proc = subprocess.Popen(["script", "-qF", "/dev/null", "netstat", "-ibd"], stdout=subprocess.PIPE)
+            ip = proc.stdout
+
+            return (sysstats_pb2.IfaceT(line=l) for l in iter(ip.readline, b''))
         except:
             pass
 
