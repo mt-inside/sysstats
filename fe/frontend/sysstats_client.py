@@ -4,7 +4,7 @@ import grpc
 import sysstats_pb2
 import sysstats_pb2_grpc
 
-channel = grpc.insecure_channel('localhost:50051')
+channel = grpc.insecure_channel('sysstats_backend:50051')
 stub = sysstats_pb2_grpc.SysStatsStub(channel)
 
 def date():
