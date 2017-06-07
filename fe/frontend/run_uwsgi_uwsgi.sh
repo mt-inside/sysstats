@@ -1,1 +1,1 @@
-uwsgi --ini uwsgi_mount.ini
+uwsgi --ini uwsgi_uwsgi_mount.ini
