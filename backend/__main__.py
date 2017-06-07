@@ -45,7 +45,11 @@ class SysStatsServicer(sysstats_pb2_grpc.SysStatsServicer):
             # - reopening the pipe fd with no buffering
             # - using (g)stdbuf
             # - didn't try expect's unbuffered (not built by the stanard brew build of expect)
-            proc = subprocess.Popen(["script", "-qF", "/dev/null", "netstat", "-ibd"], stdout=subprocess.PIPE)
+            sys = os.uname().sysname
+            if sys == 'Darwin':
+                proc = subprocess.Popen(["script", "-qF", "/dev/null", "netstat", "-ibd"], stdout=subprocess.PIPE)
+            elif sys == 'Linux':
+                proc = subprocess.Popen(["script", "-qf", "-c", "netstat -i", "/dev/null"], stdout=subprocess.PIPE)
             ip = proc.stdout
 
             return (sysstats_pb2.IfaceT(line=l) for l in iter(ip.readline, b''))
