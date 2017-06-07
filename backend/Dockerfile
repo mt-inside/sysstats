@@ -1,4 +1,12 @@
-FROM ubuntu:17.04
+FROM python:3
 
-RUN apt update && apt install pip
-RUN pip install -r requirements.txt
+WORKDIR /usr/src/app
+
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+EXPOSE 50051
+
+CMD [ "python", "." ]
