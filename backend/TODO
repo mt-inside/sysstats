@@ -1,1 +1,3 @@
 bazel file to build GRPCs
+bazel to build docker image?
+add other output

@@ -4,3 +4,5 @@ bind to port 80
 - it's uwsgi you want to bind to port 80, flask's config just moves the dev server
 - don't even uderstand the dev server - flask.run vs python -m flask
   - this stuff to EN, and pull pip & flask stuff out of python note into their own tools notes
+bazel to build docker image?
+Render other stuff
