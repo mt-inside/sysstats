@@ -68,3 +68,58 @@ class SysStatsServicer(sysstats_pb2_grpc.SysStatsServicer):
             return (sysstats_pb2.IfaceT(line=l) for l in iter(ip.readline, b''))
         except:
             pass
+#
+#out w -f
+#
+#out free
+#
+#out lsmod
+#
+#title "Containers"
+#
+#out docker ps
+#
+#title "Storage"
+#out df -h -l -T
+#
+#out cat /proc/mdstat
+#
+#for i in /dev/sd?
+#do
+#    out /usr/sbin/hddtemp -q $i
+#done
+#
+#for i in /dev/sd?
+#do
+#    echo -n
+#    #out /usr/sbin/smartctl -H $i
+#done
+#
+#TODO: run this once a day as a batch job somehow, write to a kv store container, read out on demand
+##out du -sh /export/shared/video/films
+##out du -sh /export/shared/video/tv
+##out du -sh /export/shared/music
+#
+#title "Temperatures"
+#
+#out sensors
+#
+#
+#title "Network"
+#
+##Requires root
+##out /sbin/iptables -L -v -n
+#
+#out netstat -i
+#
+#out netstat -r -n
+#
+#title "Hardware"
+#
+#out lsscsi
+#
+#out lsusb
+#
+#out lscpu
+#
+#out /usr/sbin/lspci
