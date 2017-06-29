@@ -1,0 +1,38 @@
+version: '3'
+networks:
+  service_net:
+    driver: bridge
+services:
+  frontend:
+    container_name: sysstats_frontend
+    build: ./frontend
+    networks:
+    - service_net
+    ports:
+    - "3031:3031" # uWSGI
+    - "32770:32770" # http
+    depends_on:
+    - backend
+    restart: always
+  backend:
+    container_name: sysstats_backend
+    build: ./backend
+    networks:
+    - service_net
+    depends_on:
+    - redis
+    restart: always
+  redis:
+    container_name: sysstats_redis
+    image: "redis"
+    networks:
+    - service_net
+    restart: always
+  daemon:
+    container_name: sysstats_daemon
+    build: ./daemon
+    networks:
+    - service_net
+    depends_on:
+    - redis
+    restart: always

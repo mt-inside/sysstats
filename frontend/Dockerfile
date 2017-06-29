@@ -12,3 +12,4 @@ WORKDIR /usr/src/app/frontend
 EXPOSE 3031
 
 CMD [ "uwsgi", "--ini", "uwsgi_uwsgi_mount.ini" ]
+#CMD [ "uwsgi", "--ini", "uwsgi_http.ini" ]
