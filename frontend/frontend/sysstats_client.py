@@ -19,6 +19,9 @@ def uname_a():
 def kernel_version():
     return stub.Os(sysstats_pb2.Unit()).kernel_version
 
+def disk_usage():
+    return stub.DiskUsage(sysstats_pb2.Unit())
+
 def ifaces():
     return stub.Ifaces(sysstats_pb2.Unit())
 

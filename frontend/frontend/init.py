@@ -18,5 +18,6 @@ def sysstats():
         date = sysstats_client.date(),
         uname_a = sysstats_client.uname_a(),
         kernel_version = sysstats_client.kernel_version(),
+        disk_usage = sysstats_client.disk_usage(),
         ifaces = sysstats_client.ifaces()
     ))

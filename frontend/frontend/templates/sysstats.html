@@ -6,6 +6,11 @@
 <pre>{{uname_a.nodename}}: {{uname_a.sysname}}/{{uname_a.release}} on {{uname_a.machine}}</pre>
 <pre>{{ kernel_version }}</pre>
 
+<h2>Disk Usage</h2>
+<pre>music: {{ disk_usage.music }}</pre>
+<pre>tv {{ disk_usage.tv }}</pre>
+<pre>films {{ disk_usage.films }}</pre>
+
 <h2>Network</h2>
 <pre>
 {% for iface in ifaces %}

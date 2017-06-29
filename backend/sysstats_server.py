@@ -3,10 +3,17 @@ import math
 import os
 import subprocess
 
+import redis
+
 import sysstats_pb2
 import sysstats_pb2_grpc
 
 class SysStatsServicer(sysstats_pb2_grpc.SysStatsServicer):
+    def __init__(self):
+        self.redis = redis.Redis(
+            host='sysstats_redis'
+        )
+
     def Date(
         self,
         request, # dict of the args
@@ -33,6 +40,15 @@ class SysStatsServicer(sysstats_pb2_grpc.SysStatsServicer):
         return sysstats_pb2.OsT(
             uname_a = uname,
             kernel_version = kernel
+        )
+
+    def DiskUsage(self, request, context):
+        r = self.redis
+
+        return sysstats_pb2.DiskUsageT(
+            music = int(r.get('sysstats.disk.music')),
+            tv = int(r.get('sysstats.disk.tv')),
+            films = int(r.get('sysstats.disk.films'))
         )
 
     def Ifaces(self, request, context):
