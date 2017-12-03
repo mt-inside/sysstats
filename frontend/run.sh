@@ -1,2 +1,2 @@
-export FLASK_APP=init.py
+export FLASK_APP=frontend/main.py
 python -m flask run
