@@ -1,7 +1,8 @@
 version: '3'
 networks:
   service_net:
-    driver: bridge
+    external:
+      name: service_net
 services:
   frontend:
     container_name: sysstats_frontend
@@ -13,7 +14,7 @@ services:
     - "32770:32770" # http
     depends_on:
     - backend
-    restart: always
+    restart: unless-stopped
   backend:
     container_name: sysstats_backend
     build: ./backend
@@ -21,13 +22,13 @@ services:
     - service_net
     depends_on:
     - redis
-    restart: always
+    restart: unless-stopped
   redis:
     container_name: sysstats_redis
-    image: "redis"
+    image: redis:latest
     networks:
     - service_net
-    restart: always
+    restart: unless-stopped
   daemon:
     container_name: sysstats_daemon
     build: ./daemon
@@ -35,4 +36,4 @@ services:
     - service_net
     depends_on:
     - redis
-    restart: always
+    restart: unless-stopped
