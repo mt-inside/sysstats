@@ -6,10 +6,22 @@
 <pre>{{uname_a.nodename}}: {{uname_a.sysname}}/{{uname_a.release}} on {{uname_a.machine}}</pre>
 <pre>{{ kernel_version }}</pre>
 
-<h2>Disk Usage</h2>
+<h2>Storage</h2>
+<pre>free {{ disk_usage.free }}</pre>
 <pre>music: {{ disk_usage.music }}</pre>
 <pre>tv {{ disk_usage.tv }}</pre>
 <pre>films {{ disk_usage.films }}</pre>
+<pre>raid {{ disk_usage.raid }}</pre>
+<pre>
+{% for d in disk_usage.temps %}
+{{d.left}}: {{d.right}}
+{% endfor %}
+</pre>
+<pre>
+{% for d in disk_usage.smart_statuses %}
+{{d.left}}: {{d.right}}
+{% endfor %}
+</pre>
 
 <h2>Network</h2>
 <pre>

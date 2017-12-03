@@ -1,10 +1,15 @@
 syntax = "proto3";
 
+package uk.org.empty.sysstats;
+
 service SysStats {
     rpc Date (Unit) returns (DateT) { }
     rpc Os (Unit) returns (OsT) { }
     rpc DiskUsage(Unit) returns (DiskUsageT) { }
     rpc Ifaces(Unit) returns (stream IfaceT) { }
+    rpc Users(Unit) returns (UsersT) { }
+    rpc Mem(Unit) returns (MemT) { }
+    rpc Containers(Unit) returns (ContainersT) { }
 }
 
 message Unit {
@@ -25,14 +30,31 @@ message UnameT {
 message OsT {
     UnameT uname_a = 1;
     string kernel_version = 2;
+    string modules = 3;
 }
 
 message DiskUsageT {
-    uint64 music = 1;
-    uint64 tv = 2;
-    uint64 films = 3;
+    string free = 1;
+    uint64 music = 2;
+    uint64 tv = 3;
+    uint64 films = 4;
+    string raid = 5;
+    map<string, string> temps = 6;
+    map<string, string> smart_statuses = 7;
 }
 
 message IfaceT {
     string line = 1;
+}
+
+message UsersT {
+    string users = 1;
+}
+
+message MemT {
+    string free = 1;
+}
+
+message ContainersT {
+    string containers = 1;
 }

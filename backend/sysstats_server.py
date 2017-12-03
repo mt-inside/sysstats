@@ -2,11 +2,15 @@ import time
 import math
 import os
 import subprocess
+import shlex
 
 import redis
 
 import sysstats_pb2
 import sysstats_pb2_grpc
+
+def slurp(cmd):
+    return subprocess.run(shlex.split(cmd), stdout=subprocess.PIPE).stdout.decode('utf-8')
 
 class SysStatsServicer(sysstats_pb2_grpc.SysStatsServicer):
     def __init__(self):
@@ -37,18 +41,29 @@ class SysStatsServicer(sysstats_pb2_grpc.SysStatsServicer):
                 kernel = ver.read()
 
 
+        #modules = slurp("lsmod")
+
         return sysstats_pb2.OsT(
             uname_a = uname,
-            kernel_version = kernel
+            kernel_version = kernel,
+            modules = modules
         )
 
     def DiskUsage(self, request, context):
         r = self.redis
 
+        disks = ['sda', 'sdb', 'sdc', 'sdd', 'sde']
+        temps = { d: slurp("/usr/sbin/hddtemp -q /dev/%s" % d) for d in disks }
+        smarts = { d: slurp("/usr/sbin/smartctl -H /dev/%s" % d) for d in disks }
+
         return sysstats_pb2.DiskUsageT(
+            free = slurp('df -h -l -T'),
             music = int(r.get('sysstats.disk.music')),
             tv = int(r.get('sysstats.disk.tv')),
-            films = int(r.get('sysstats.disk.films'))
+            films = int(r.get('sysstats.disk.films')),
+            raid = open('/proc/mdstat').read(),
+            temps = temps,
+            smart_statuses = smarts
         )
 
     def Ifaces(self, request, context):
@@ -68,37 +83,16 @@ class SysStatsServicer(sysstats_pb2_grpc.SysStatsServicer):
             return (sysstats_pb2.IfaceT(line=l) for l in iter(ip.readline, b''))
         except:
             pass
-#
-#out w -f
-#
-#out free
-#
-#out lsmod
-#
-#title "Containers"
-#
-#out docker ps
-#
-#title "Storage"
-#out df -h -l -T
-#
-#out cat /proc/mdstat
-#
-#for i in /dev/sd?
-#do
-#    out /usr/sbin/hddtemp -q $i
-#done
-#
-#for i in /dev/sd?
-#do
-#    echo -n
-#    #out /usr/sbin/smartctl -H $i
-#done
-#
-#TODO: run this once a day as a batch job somehow, write to a kv store container, read out on demand
-##out du -sh /export/shared/video/films
-##out du -sh /export/shared/video/tv
-##out du -sh /export/shared/music
+
+    def Users(self, request, context):
+        return sysstats_pb2.UsersT(slurp("w -f"))
+
+    def Mem(self, request, context):
+        return sysstats_pb2.MemT(slurp("free -h"))
+
+    def Containers(self, request, context):
+        return sysstats_pb2.ContainersT(slurp("docker ps"))
+
 #
 #title "Temperatures"
 #

@@ -19,5 +19,8 @@ def sysstats():
         uname_a = sysstats_client.uname_a(),
         kernel_version = sysstats_client.kernel_version(),
         disk_usage = sysstats_client.disk_usage(),
-        ifaces = sysstats_client.ifaces()
+        ifaces = sysstats_client.ifaces(),
+        users = sysstats_client.users(),
+        mem = sysstats_client.mem(),
+        containers = sysstats_client.containers()
     ))

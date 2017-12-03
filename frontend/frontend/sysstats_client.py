@@ -25,6 +25,15 @@ def disk_usage():
 def ifaces():
     return stub.Ifaces(sysstats_pb2.Unit())
 
+def users():
+    return stub.Users(sysstats_pb2.Unit())
+
+def mem():
+    return stub.Mem(sysstats_pb2.Unit())
+
+def containers():
+    return stub.Containers(sysstats_pb2.Unit())
+
 # TODO for the lists you wanna open the files and stream each line over grpc
 # streaming, then have kinja loop the iterator
 # put a delay in the sender and see what it looks like
