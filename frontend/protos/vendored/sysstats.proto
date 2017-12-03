@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+service SysStats {
+    rpc Date (Unit) returns (DateT) { }
+    rpc Os (Unit) returns (OsT) { }
+    rpc DiskUsage(Unit) returns (DiskUsageT) { }
+    rpc Ifaces(Unit) returns (stream IfaceT) { }
+}
+
+message Unit {
+}
+
+message DateT {
+    int64 date = 1;
+}
+
+message UnameT {
+    string nodename = 1;
+    string sysname = 2;
+    string release = 3;
+    string version = 4;
+    string machine = 5;
+}
+
+message OsT {
+    UnameT uname_a = 1;
+    string kernel_version = 2;
+}
+
+message DiskUsageT {
+    uint64 music = 1;
+    uint64 tv = 2;
+    uint64 films = 3;
+}
+
+message IfaceT {
+    string line = 1;
+}
