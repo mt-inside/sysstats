@@ -1,3 +1,6 @@
+# Flask entry point for the frontend. Can't be a package entrypoint
+# (__main__.py) becuase Flask wants a module.
+
 from flask import Flask, render_template, Response
 
 import sysstats_client
@@ -24,3 +27,7 @@ def sysstats():
         mem = sysstats_client.mem(),
         containers = sysstats_client.containers()
     ))
+
+@app.route('/test')
+def test():
+    return 'OK'
