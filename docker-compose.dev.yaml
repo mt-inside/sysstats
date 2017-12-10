@@ -1,0 +1,8 @@
+version: '3'
+services:
+  frontend:
+    volumes:
+      - ./frontend:/usr/src/app
+  backend:
+    volumes:
+      - ./backend:/usr/src/app
