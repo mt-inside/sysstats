@@ -1,3 +1,4 @@
 bazel file to build GRPCs
+circuit breakers especially for redis connection (deploy on istio?)
 bazel to build docker image?
 add other output

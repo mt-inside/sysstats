@@ -1,1 +1,1 @@
-python backend.py
+python backend
