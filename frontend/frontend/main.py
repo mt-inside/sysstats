@@ -5,6 +5,7 @@ from flask import Flask, render_template, Response
 
 import sysstats_client
 
+print("Starting...")
 app = Flask(__name__)
 
 # Not built into Flask as apparently uncommon, but copied from

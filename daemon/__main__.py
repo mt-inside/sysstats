@@ -2,6 +2,8 @@ import time
 
 import redis
 
+print("Starting...")
+
 r = redis.Redis(
     host='sysstats_redis'
 )

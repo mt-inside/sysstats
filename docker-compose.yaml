@@ -14,6 +14,7 @@ services:
     - "32770:32770" # http
     depends_on:
     - backend
+    - redis
     restart: unless-stopped
   backend:
     container_name: sysstats_backend

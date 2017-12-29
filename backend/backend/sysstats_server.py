@@ -10,7 +10,8 @@ import sysstats_pb2
 import sysstats_pb2_grpc
 
 def slurp(cmd):
-    return subprocess.run(shlex.split(cmd), stdout=subprocess.PIPE).stdout.decode('utf-8')
+    return "<unknown>"
+    #return subprocess.run(shlex.split(cmd), stdout=subprocess.PIPE).stdout.decode('utf-8')
 
 class SysStatsServicer(sysstats_pb2_grpc.SysStatsServicer):
     def __init__(self):
@@ -40,8 +41,7 @@ class SysStatsServicer(sysstats_pb2_grpc.SysStatsServicer):
             with ver:
                 kernel = ver.read()
 
-
-        #modules = slurp("lsmod")
+        modules = slurp("lsmod")
 
         return sysstats_pb2.OsT(
             uname_a = uname,
@@ -61,7 +61,7 @@ class SysStatsServicer(sysstats_pb2_grpc.SysStatsServicer):
             music = int(r.get('sysstats.disk.music')),
             tv = int(r.get('sysstats.disk.tv')),
             films = int(r.get('sysstats.disk.films')),
-            raid = open('/proc/mdstat').read(),
+            raid = slurp('zpool status'),
             temps = temps,
             smart_statuses = smarts
         )
@@ -73,6 +73,7 @@ class SysStatsServicer(sysstats_pb2_grpc.SysStatsServicer):
             # - reopening the pipe fd with no buffering
             # - using (g)stdbuf
             # - didn't try expect's unbuffered (not built by the stanard brew build of expect)
+            # - TODO: slurp this?
             sys = os.uname().sysname
             if sys == 'Darwin':
                 proc = subprocess.Popen(["script", "-qF", "/dev/null", "netstat", "-ibd"], stdout=subprocess.PIPE)
@@ -85,13 +86,19 @@ class SysStatsServicer(sysstats_pb2_grpc.SysStatsServicer):
             pass
 
     def Users(self, request, context):
-        return sysstats_pb2.UsersT(slurp("w -f"))
+        return sysstats_pb2.UsersT(
+            users=slurp("w -f")
+        )
 
     def Mem(self, request, context):
-        return sysstats_pb2.MemT(slurp("free -h"))
+        return sysstats_pb2.MemT(
+            free=slurp("free -h")
+        )
 
     def Containers(self, request, context):
-        return sysstats_pb2.ContainersT(slurp("docker ps"))
+        return sysstats_pb2.ContainersT(
+            containers=slurp("docker ps")
+        )
 
 #
 #title "Temperatures"

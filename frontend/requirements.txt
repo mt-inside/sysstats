@@ -6,4 +6,5 @@ Jinja2==2.10
 MarkupSafe==1.0
 protobuf==3.5.0.post1
 six==1.11.0
+uWSGI==2.0.15
 Werkzeug==0.12.2
