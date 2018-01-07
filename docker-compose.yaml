@@ -1,4 +1,4 @@
-version: '3'
+version: '3.0'
 networks:
   service_net:
     external:
@@ -6,7 +6,7 @@ networks:
 services:
   frontend:
     container_name: sysstats_frontend
-    build: ./frontend
+    image: sysstats_frontend:latest
     networks:
     - service_net
     ports:
@@ -18,7 +18,7 @@ services:
     restart: unless-stopped
   backend:
     container_name: sysstats_backend
-    build: ./backend
+    image: sysstats_backend:latest
     networks:
     - service_net
     depends_on:
@@ -32,7 +32,7 @@ services:
     restart: unless-stopped
   daemon:
     container_name: sysstats_daemon
-    build: ./daemon
+    image: sysstats_daemon:latest
     networks:
     - service_net
     depends_on:
